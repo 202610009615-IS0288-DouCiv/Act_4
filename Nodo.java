@@ -25,6 +25,10 @@ public class Nodo {
 
  }
 
+public Nodo getSiguiente(){
+ return this.siguiente;
+}
+
  public void setSiguiente(Nodo siguiente) {
 
   this.siguiente = siguiente;
