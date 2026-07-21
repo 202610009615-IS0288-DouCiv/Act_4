@@ -1,138 +1,146 @@
 public class Verificador {
 
- public void verificarExpresion(String texto) {
+    public void verificarExpresion(String texto) {
 
-      Pila pila = new Pila();
+        Pila pila = new Pila();
 
-      int linea = 1;
-      int columna = 0;
+        int linea = 1;
+        int columna = 0;
 
-      for (int i = 0; i < texto.length(); i++) {
+        for (int i = 0; i < texto.length(); i++) {
 
-          char caracter = texto.charAt(i);
+            char caracter = texto.charAt(i);
 
-          // Cuando empieza una línea nueva.
-          if (caracter == '\n') {
-              linea++;
-              columna = 0;
-              continue;
-          }
+            // Cuando empieza una línea nueva.
+            if (caracter == '\n') {
+                linea++;
+                columna = 0;
+                continue;
+            }
 
-          columna++;
+            columna++;
 
-          // Símbolos de apertura.
-          if (esApertura(caracter)) {
+            // Símbolos de apertura.
+            if (esApertura(caracter)) {
 
-              pila.push(
-                  String.valueOf(caracter),
-                  linea,
-                  columna
-              );
-          }
+                pila.push(
+                        String.valueOf(caracter),
+                        linea,
+                        columna);
+            }
 
-          // Símbolos de cierre.
-          else if (esCierre(caracter)) {
+            // Símbolos de cierre.
+            else if (esCierre(caracter)) {
 
-              if (pila.isEmpty()) {
+                if (pila.isEmpty()) {
 
-                  System.out.println(
-                      "Error: cierre '" + caracter
-                      + "' sin apertura en línea "
-                      + linea + ", columna " + columna
-                  );
+                    System.out.println(
+                            "Error: cierre '" + caracter
+                                    + "' sin apertura en línea "
+                                    + linea + ", columna " + columna);
 
-                  return;
-              }
+                    return;
+                }
 
-              Nodo apertura = pila.peek();
+                Nodo apertura = pila.peek();
 
-              char simboloApertura =
-                  apertura.getSimbolo().charAt(0);
+                char simboloApertura = apertura.getSimbolo().charAt(0);
 
-              if (!sonPareja(simboloApertura, caracter)) {
+                if (!sonPareja(simboloApertura, caracter)) {
 
-                  System.out.println(
-                      "Error de jerarquía en línea "
-                      + linea + ", columna " + columna
-                      + ". Se encontró '" + caracter
-                      + "', pero la última apertura fue '"
-                      + simboloApertura
-                      + "' en línea "
-                      + apertura.getLinea()
-                      + ", columna "
-                      + apertura.getColumna()
-                      + ". Se esperaba '"
-                      + obtenerCierre(simboloApertura)
-                      + "'."
-                  );
+                    System.out.println(
+                            "Error de jerarquía en línea "
+                                    + linea + ", columna " + columna
+                                    + ". Se encontró '" + caracter
+                                    + "', pero la última apertura fue '"
+                                    + simboloApertura
+                                    + "' en línea "
+                                    + apertura.getLinea()
+                                    + ", columna "
+                                    + apertura.getColumna()
+                                    + ". Se esperaba '"
+                                    + obtenerCierre(simboloApertura)
+                                    + "'.");
 
-                  return;
-              }
+                    return;
+                }
 
-              pila.pop();
-          }
-      }
+                pila.pop();
+            }
+        }
 
-      if (!pila.isEmpty()) {
+        if (!pila.isEmpty()) {
 
-          System.out.println(
-              "Error: existen símbolos de apertura sin cierre."
-          );
+            System.out.println(
+                    "Error: existen símbolos de apertura sin cierre.");
 
-          while (!pila.isEmpty()) {
+            while (!pila.isEmpty()) {
 
-              Nodo pendiente = pila.pop();
+                Nodo pendiente = pila.pop();
 
-              System.out.println(
-                  "El símbolo '"
-                  + pendiente.getSimbolo()
-                  + "' abierto en línea "
-                  + pendiente.getLinea()
-                  + ", columna "
-                  + pendiente.getColumna()
-                  + " no fue cerrado."
-              );
-          }
+                System.out.println(
+                        "El símbolo '"
+                                + pendiente.getSimbolo()
+                                + "' abierto en línea "
+                                + pendiente.getLinea()
+                                + ", columna "
+                                + pendiente.getColumna()
+                                + " no fue cerrado.");
+            }
 
-      } else {
+        } else {
 
-          System.out.println(
-              "Expresión válida y correctamente balanceada."
-          );
-      }
-  }
+            System.out.println(
+                    "Expresión válida y correctamente balanceada.");
+        }
+    }
 
-  private boolean esApertura(char caracter) {
-      return caracter == '('
-          || caracter == '['
-          || caracter == '{';
-  }
+    private boolean esApertura(char caracter) {
+        return caracter == '('
+                || caracter == '['
+                || caracter == '{';
+    }
 
-  private boolean esCierre(char caracter) {
-      return caracter == ')'
-          || caracter == ']'
-          || caracter == '}';
-  }
+    private boolean esCierre(char caracter) {
+        return caracter == ')'
+                || caracter == ']'
+                || caracter == '}';
+    }
 
-  private boolean sonPareja(char apertura, char cierre) {
+    private boolean sonPareja(char apertura, char cierre) {
 
-      return apertura == '(' && cierre == ')'
-          || apertura == '[' && cierre == ']'
-          || apertura == '{' && cierre == '}';
-  }
+        return apertura == '(' && cierre == ')'
+                || apertura == '[' && cierre == ']'
+                || apertura == '{' && cierre == '}';
+    }
 
-  private char obtenerCierre(char apertura) {
+    private char obtenerCierre(char apertura) {
 
-      if (apertura == '(') {
-          return ')';
-      }
+        if (apertura == '(') {
+            return ')';
+        }
 
-      if (apertura == '[') {
-          return ']';
-      }
+        if (apertura == '[') {
+            return ']';
+        }
 
-      return '}';
-  }
+        return '}';
+    }
 
- 
+    public void verificarHTML(String texto) {
+        // Código para validar HTML.
+    }
+
+    private int buscarFinEtiqueta(String texto, int inicio) {
+        // Código auxiliar.
+    }
+
+    private String obtenerNombreEtiqueta(String contenido) {
+        // Código auxiliar.
+    }
+
+    private boolean esEtiquetaVacia(String nombre) {
+        // Código auxiliar.
+    }
+
 }
